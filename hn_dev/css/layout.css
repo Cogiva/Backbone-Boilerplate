@@ -1,0 +1,96 @@
+﻿body
+{
+    width: 100%;
+    max-width: 480px;
+}
+
+.navbar
+{
+    .width: 100%;
+    .position: fixed;
+    .top: 0;
+    .right: 0;
+    .left: 0;
+    .background: #485C5A;
+    .border-radius: 0px 0px 5px 5px;
+}
+
+    .navbar .navbar-inner
+    {       
+        width: 100%;
+        max-width: 480px;
+        margin: 0px auto;
+        padding: 8px;
+        height: 40px;
+    }
+
+#main, #content
+{        
+        .margin: 0px auto;
+        padding: 10px 8px;
+        .overflow: auto;
+}
+
+#content #contentitems
+{
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    .margin: 60px auto 0px auto;
+    .margin-top: 60px;
+}
+
+.thelocations, .theauditcodes, .thecrates
+{
+    text-align: left;
+}
+
+.form-signin.login,
+.form-signin.register,
+.form-signin.forgotten,
+#form-list,
+#form-item
+
+{
+    max-width: 405px;
+}
+
+footer.container.navbar-fixed-top {
+    .width: 100%;
+    background: #fff;
+    color: rgba(0, 0, 0, 0.1); 
+    border-top: 1px solid #ddd;   
+    .top: auto;
+    .bottom: 0;
+}
+
+footer #footcontent
+{
+    width: 100%;
+    max-width: 480px;
+    padding: 15px 8px;
+    .margin: 0px auto;
+    line-height: 1.4em;
+    font-size: 0.9em;
+    color: #999;
+    border-top: 1px solid #eee;
+    text-align: left;
+}
+
+#thelists
+{
+    width: 220px;
+    overflow: auto;
+    background: #ededed;
+    border-radius: 4px;
+}
+
+#listlinks
+{
+    border-top: 1px solid #000;
+    vertical-align: : middle;
+}
+
+.row {
+    text-align: left;
+}

@@ -1,0 +1,147 @@
+﻿/*!
+ * Bootstrap v2.3.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+.input-block-level {
+  display: inline-block;
+  width: 100%;
+  border: 0px;
+  background: #fff;
+  margin: 1px 0px 10px 0px;
+  max-width: 360px;
+  padding: 3px 3px 4px 3px;
+  border: 3px solid #aaa;
+}
+
+select.input-block-level
+{
+  padding: 2px 2px 3px 2px;
+}
+
+.input-block-level.small{
+  max-width: 175px;
+}
+
+select.input-block-level.small{
+  max-width: 167px;
+}
+
+select.input-block-level.medium{
+  max-width: 187px;
+}
+
+.input-block-level.smallest{
+  max-width:155px;
+}
+
+.input-block-level.dropdown
+{
+  background:url(../img/dd-arrows.png) no-repeat right top;
+  background-position: 138px 0px;
+}
+
+.input-block-level.dropdown:hover
+{
+  background-position: 138px -22px;
+}
+
+.input-block-level:focus,
+.input-block-level:hover
+{
+    background-color: #fff;
+    border-color: #000;
+    outline: none; 
+}
+
+.btn {
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 1px 8px;
+  margin-top: 1px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #fff !important;
+  background-color: #000;
+  border: 3px solid #000;  
+  border-radius: 4px;
+}
+
+.btn_small {
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0px 8px;
+  margin-top: 1px;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #fff !important;
+  background-color: #000;
+  border: 3px solid #000;
+  border-left: 0px;
+  border-radius: 4px;
+}
+
+.distracted .btn, .distracted .btn_small
+{
+    border-color: #000;
+    background-color: #000;
+    color: #fff;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn.active,
+.btn.disabled,
+.btn[disabled],
+.btn_small:hover,
+.btn_small:focus,
+.btn_small:active,
+.btn_small.active,
+.btn_small.disabled,
+.btn_small[disabled]
+ {
+  color: #555 !important;
+  background: #ff0;
+  border-color: #ff0;
+}
+
+.btn:disabled, a:disabled
+{
+    background: #eee !important;
+    color: #fff !important;
+    border: 3px#eee solid !important;
+    cursor: not-allowed;
+}
+
+.distracted .btn, .distracted .btn_small
+{
+    display: none;
+}
+
+.distracted:hover .btn, .distracted:hover .btn_small
+{
+    display: inline-block;
+}
+
+.btn-large {
+    width: 190px;
+  padding: 14px 16px;
+  font-size: 18px;
+  border-radius: 6px;
+}
