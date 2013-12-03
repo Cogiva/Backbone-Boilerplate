@@ -1,34 +1,69 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>App Title: Require/Backbone/Kinvey Boilerplate!</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Maitre Dee: Book. Eat. Go!</title>
     <link href="css/index.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="img/icon75x75.png">
+    <link rel="icon" type="image/png" href="img/food.png">
+    <script type="text/javascript">
+        sessionStorage.apiURL = "http://localhost:215";
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Days+One' rel='stylesheet' type='text/css'>
 </head>
-
 <body>
-    
-    <div class="navbar">
-        <div class="navbar-inner"><a class="brand no_rollover_yellow" href="/">App Title.</a></div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="/img/food.png" alt="Maitre Dee">
+                    <div>
+                        Maitre Dee<br /><span>Book. Eat. Go.</span>
+                    </div>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav notloggedin item-hidden">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#/about">About</a></li>
+                    <li><a href="/#/contact">Contact</a></li>
+                    <li><a href="/#/register">Sign Up</a></li>
+                </ul>
+                <ul class="nav navbar-nav loggedin item-hidden">
+                    <li><a href="/#/lists"><span class="glyphicon glyphicon-list"></span> List View</a></li>
+                    <li><a href="/#/calendar"><span class="glyphicon glyphicon-calendar"></span> Calendar View</a></li>
+                    <li><a href="/#/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                    <li><a href="/#/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="alert">
     </div>
-        
-    <div id="content" class="container">
-        <div id="loadingicon" class=""><img src="/img/loader.gif" alt="loading..." title="loading..." /></div>
+
+    <div class="container body-content">
+        <div id="loadingicon" class=""><img src="/img/loader_5.gif" alt="loading..." title="loading..." />
+        </div>
+        <div id="singlecolumn">
+        </div>
+        <div id="contentlists">
+        </div>
         <div id="contentitems">
         </div>
+        <hr />
+        <footer>
+            <p>Built & Copyright &copy; <a href="https://twitter.com/cogiva">@Cogiva</a> <script> document.write((new Date()).getFullYear());</script> <br />
+            With a little help from the information super highway! All rights reserved.<p>
+            <p>Icons kindly provided by <a href="http://glyphicons.com/" target="_icons">Glyphicons</a> - we salute you!
+        </footer>
     </div>
-    
-    <footer class="container">
-        <div id="footcontent">
-            Built & Copyright &copy; <a href="https://twitter.com/cogiva">@Cogiva</a><br />
-            With a little help from the information super highway! All rights reserved.
-        </div>
-    </footer>
 
     <script data-main="js/app/main.js" src="js/lib/require.js"></script>
+
 </body>
 </html>

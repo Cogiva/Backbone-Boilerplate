@@ -3,14 +3,13 @@ define([
   'underscore',
   'backbone',
   'utils',
-  'kinvey',
 
   'text!templates/forgottenpassword.html'
-], function ($, _, Backbone, Utils, Kinvey, ForgottenpasswordTemplate) {
+], function ($, _, Backbone, Utils, ForgottenpasswordTemplate) {
 
     var ResetView = Backbone.View.extend({
         template: _.template(ForgottenpasswordTemplate),
-        el: "#contentitems",
+        el: "#singlecolumn",
         
         initialize: function (models) {
           this.utils = new Utils();
@@ -18,18 +17,31 @@ define([
         },
 
         events: {
-          "click #resetsubmit" : "reset"
+          "click #resetsubmit" : "reset",
+          "click a": "redirectLinks"
         },
 
-        render: function () {
+        redirectLinks: function (e) {
+            e.preventDefault();
+
+            // Get clicked items href!!
+            var href = $(e.currentTarget).data("href");
+            this.utils.navigate(href);
+            return false;
+        },
+        
+      render: function () {
             $(this.el).html(this.template());
        },
 
        reset: function(eventname) {
           var self = this;
+          self.utils.disableButton($("#resetsubmit"), "Sending Email...", true);
+
           if ($("#username").val() === "")
           {
               self.utils.sendAlert("No, no, no!", "You have to fill out all the username.  Let's try that again shall we?", "error", function(){});
+              self.utils.disableButton($("#resetsubmit"), "Send Reset Email...", false);
               return false;
           }
           else
@@ -42,6 +54,7 @@ define([
                 },
                 error: function(model, response, options){
                     self.utils.sendAlert("Uh-Oh! Houston we have a problem. ", response.description, "error", function(){});
+                    self.utils.disableButton($("#resetsubmit"), "Send Reset Email...", false);
                     return false;
                 }
             });            

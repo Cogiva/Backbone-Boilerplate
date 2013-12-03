@@ -3,10 +3,10 @@ define([
   'underscore',
   'backbone',
   'utils',
-  'kinvey',
+  'stackmob',
 
   'text!templates/main.html'
-], function ($, _, Backbone, Utils, Kinvey, MainTemplate) {
+], function ($, _, Backbone, Utils, Stackmob, MainTemplate) {
 
     var MainView = Backbone.View.extend({
         template: _.template(MainTemplate),

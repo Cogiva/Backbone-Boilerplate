@@ -4,31 +4,30 @@ define([
   'underscore',
   'backbone',
   'utils',
-  'kinvey',
+  'bootstrap',
 
   /* MODELS / COLLECTIONS */
+  'model/UserModel',
 
   /* VIEWS */
   'view/HomeView',
   'view/RegisterView',
-  'view/MainView',
-  'view/ResetView'
+  'view/ResetView',
+  'view/ErrorView'
 
-], function($, _, Backbone, Utils, Kinvey, HomeView, RegisterView, MainView, ResetView){
+], function ($, _, Backbone, Utils, Bootstrap, UserModel, HomeView, RegisterView, ResetView, ErrorView){
     
-    // Ensures that the user is logged in before proceeding with the
-    // `originalRoute`.
-
-
     // Router
     var  AppRouter = Backbone.Router.extend({
         
         routes: {
             "": "home",
+            "login": "home",
+            "user/:username": "mainredirect",
             "register":"register",
-            "user/:username": "main",
             "forgotten-password": "reset",
-            "error/:errortext": "error"            
+            "error": "error",
+            "logout": "logout",
         },
 
         initialize: function () {
@@ -36,31 +35,56 @@ define([
         },
 
         showLoading: function() {
+            console.log("Showing loader....");             
             $("#loadingicon").removeClass("item-hidden");
         },
 
         hideLoading: function() {
+            console.log("Hiding loader....");             
             $("#loadingicon").addClass("item-hidden");
         },
 
+        clearColumns: function (columns)
+        {
+            switch (columns)
+            {
+                case 2:
+                  $('#singlecolumn').empty();
+                  $('#singlecolumn').addClass('item-hidden');
+                  $('#contentlists').empty();
+                  $('#contentlists').removeClass('item-hidden');
+                  $('#contentitems').empty();
+                  $('#contentitems').removeClass('item-hidden');
+                  break;                  
+                default:
+                  $('#singlecolumn').empty();
+                  $('#singlecolumn').removeClass('item-hidden');
+                  $('#contentlists').empty();
+                  $('#contentlists').addClass('item-hidden');
+                  $('#contentitems').empty();
+                  $('#contentitems').addClass('item-hidden');
+                  break;
+            }
+
+        },
+
         ensureLogin: function(originalRoute) {
-          var user = Kinvey.Backbone.getActiveUser();
+          var user = this.utils.getCurrentUser();
 
           if(null !== user) {
             originalRoute();
           }
           else
           {
-            var homeView = new HomeView();
-            homeView.on('render', this.hideLoading());
+              window.location = "/#/login";
           }      
         },
 
         confirmNotLoggedIn: function(originalRoute) {
-          var user = Kinvey.Backbone.getActiveUser();
+          var user = this.utils.getCurrentUser();
 
           if(null !== user) {
-              window.location = "/#/user/" + user.attributes.username;
+              window.location = "/#/user/" + user.username;
           }
           else
           {
@@ -68,43 +92,85 @@ define([
           }      
         },
 
-        home: function (eventname)
-        {
+        logout: function(){
+            var self = this;
+
+            // Clear Collections
+
+            // Clear Session and LocalStorage            
+            var currentUser = new UserModel().remove(function(){
+              sessionStorage.removeItem("happuser");
+              localStorage.removeItem("happuser");
+              self.utils.navigate("/#/login");
+              self.utils.sendAlert("Logout","Leaving so soon.  Was it something we said?", "success",function(){});
+              self.utils.setMenus(false);
+            });
+        },
+
+        home: function (eventname){
+            this.clearColumns(1);
             var self = this;
             this.showLoading();
-            this.confirmNotLoggedIn(function(){
+            this.confirmNotLoggedIn(function(){    
+                console.log("In the login view create....");             
+                self.utils.setMenus(false);
                 var homeView = new HomeView();
+                console.log("After render....");             
                 homeView.on('render', self.hideLoading());
             });
         }, 
 
         register: function(eventname) {
+            this.clearColumns(1);
             var self = this;
             this.showLoading();
             this.confirmNotLoggedIn(function(){
+                self.utils.setMenus(false);
                 var registerView = new RegisterView();
                 registerView.on('render', self.hideLoading());
             });
         },
 
-        main: function(user){
-            var self = this;
-            this.showLoading();
+        mainredirect: function(user){
+
+        },
+
+        main: function(listid){       
+            this.clearColumns(2);
+            var self = this;     
+            // clear page and set to loading...
+            $('#contentitems').empty();
+            self.showLoading();
+
             this.ensureLogin(function(){
-                var mainView = new MainView({username: user});
-                mainView.on('render', self.hideLoading());
+                             
             });
         },
 
         reset: function(){
+            this.clearColumns(1);
             this.showLoading();
             var resetView = new ResetView();
             resetView.on('render', this.hideLoading());
         },
 
         error: function (theerror) {
-            this.utils.sendAlert("Uh-Oh! It seems there's strange things afoot at Circle K!\n<em>Error: " + theerror + "<em>", "error");
-        }    
+            this.clearColumns(1);
+            var self = this;
+            this.showLoading();
+            this.confirmNotLoggedIn(function(){
+                self.utils.setMenus(false);
+                var errorView = new ErrorView();
+                errorView.on('render', self.hideLoading());
+            });
+        },
+
+        fetchCollections: function (callback){
+            var self = this;
+            this.ensureLogin(function(){
+                             
+            });          
+        }
 
     });
 

@@ -1,10 +1,19 @@
-﻿<div class="row">
-	<form>
-		<legend>Login</legend>
-		<input id="username" type="text" placeholder="Username" required  /><br />
-		<input id="password" type="password" placeholder="Password" required  /><br />
-		<input id="loginsubmit" type="submit" class="btn" value="login">
-	</form>
-	<a href="/#/forgotten-password" >Forgotten Password?</a> | 
-	<a href="/#/register" >New User Registration?</a>
+﻿<div class="row div-centered">
+	<div class="narrowdiv">
+		<form id="loginform" class="form-horizontal">
+			<legend>Login</legend>
+			<input id="username" type="text" placeholder="Username" required  class="form-control" data-bind="value: userName, hasFocus: true"  /><br />
+			<input id="password" type="password" placeholder="Password" required class="form-control" data-bind="value: password" /><br />
+
+			<div class="checkbox loginpersist">
+				<input id="persist" class="css-checkbox" type="checkbox" />
+				<label id="persist" name="cb_replacement" class="css-label"></label>
+				Stay logged in?
+			</div>
+
+			<button id="loginsubmit" type="submit" class="btn">Login</button>		
+		</form>
+		<a data-href="/#/forgotten-password" >Oops! I forgot...</a> | 
+		<a data-href="/#/register" >Hey, I'm new here...</a>
+	</div>
 </div>

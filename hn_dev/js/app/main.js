@@ -5,12 +5,11 @@ require.config({
     jqueryui: '../lib/jquery-ui-1.10.2.custom.min',
     underscore: '../lib/underscore',
     backbone: '../lib/backbone',
-    backboneAssociations: '../lib/backbone-associations',
     text: '../lib/text',
     templates: '../../templates',
     typeahead: '../lib/backbone.typeahead',
     utils: '../lib/utils',
-    kinvey: '../lib/kinvey'
+    bootstrap: '../lib/bootstrap'
   },
 
   shim: {
@@ -21,10 +20,6 @@ require.config({
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
-        },
-        'backboneAssociations': {
-            deps: ['jquery', 'backbone'],
-            exports: 'backboneAssociations'
         },
         'underscore': {
             exports: '_'
@@ -39,42 +34,82 @@ require.config({
         'utils': {
             deps: ['jquery','backbone']
         },
-        'kinvey': {
-            deps: ['jquery', 'underscore', 'backbone']
+        'bootstrap': {
+            deps: ['jquery']
         }
     }
 });
 
 require([
-  'jquery',
-  'underscore',
-  'backbone',
-  'backboneAssociations',
-  'kinvey',
-  'router'
-], function ($, _, Backbone, BackboneAssociations, Kinvey, Router) {
+  'router',
+  'backbone'
+], function (Router, Backbone) {
 
-    window.KINVEY_DEBUG = true;
+    $.ajaxSetup({
+        statusCode: {
+            401: function(){
+                // Redirec the to the login page.
+                sessionStorage.removeItem("happuser");
+                localStorage.removeItem("happuser");
+                window.location.replace('/#/login');
+             
+            },
+            403: function() {
+                // 403 -- Access denied
+                sessionStorage.errorMsg = "currentError";
+                sessionStorage.removeItem("happuser");
+                localStorage.removeItem("happuser");
+                window.location.replace('/#/error');
+            }
+        }
+    })
+    
+    /*
+     * Store a version of Backbone.sync to call from the
+     * modified version we create
+     */
+    var backboneSync = Backbone.sync;
 
-    var promise = Kinvey.init({
-        appKey    : 'kid_eVObLFpuOO',
-        appSecret : 'd4440bd4344f482fbb633894f87c8e4b'
-    });
+    Backbone.sync = function (method, model, options) {
+        /*
+         * The jQuery `ajax` method includes a 'headers' option
+         * which lets you set any headers you like
+         */
+            
+        var theUser = JSON.parse(localStorage.getItem("happuser"));
 
-    promise.then(function(activeUser) {
+        if (theUser === null)
+        {
+            theUser = JSON.parse(sessionStorage.getItem("happuser"));        
+        }
+        if (theUser !== null)
+        {
+            /*var new_options =  _.extend({
+                beforeSend: function(xhr) {
+                    var token = 'Bearer ' + theUser.authtoken;
+                    console.log('token', token);
+                    xhr.setRequestHeader('Authorization', token);
+                }
+            }, options) */
+            options.headers = {
+                /* 
+                 * Set the 'Authorization' header and get the access
+                 * token from the `auth` module
+                 */
+                'Authorization': 'Bearer ' + theUser.authtoken
+            }
 
-        // Start the Router
-        var app = new Router();
-        Backbone.history.start();
+        }
 
-    }, function(error) {
-        
-        // Start the Router
-        var app = new Router();
-        Backbone.history.start();
+        /*
+         * Call the stored original Backbone.sync method with
+         * extra headers argument added
+         */
+        backboneSync(method, model, options);
+    };
 
-        //redirect to error page
-        windows.location("/#/error/" + error.description);
-    });
+    // Start the Router
+    var happ = new Router();
+    Backbone.history.start();
 
 });
